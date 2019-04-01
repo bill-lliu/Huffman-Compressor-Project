@@ -1,23 +1,17 @@
-//**********A template  for a simple linked list ********
-
-class QueueList {
-  public static void main(String[] args) {
-    SimpleQueuedList<String> q = new SimpleQueuedList<>();
-    q.enqueue("1", 1);
-    q.enqueue("5", 12);
-    q.enqueue("2", 1);
-    q.enqueue("3", 2);
-    q.enqueue("4", 2);
-    while(!q.isEmpty()) {
-      System.out.println(q.dequeue());
-    } 
-  }
-}
-
+/*Bill Liu
+ * Encoding Queue, used to create binary tree for hoffman compression
+ * March 31, 2019
+ */
 // ********************** Simple Linked List class in the linked list *********
-class SimpleQueuedList<E> { 
+public class EncodeQueue<E> { 
     private Node<E> head;
     private Node<E> tail;
+    
+    //constructor for the queue
+    public EncodeQueue() {
+    	head = null;
+    	tail = null;
+    }
     
     public void enqueue (E item, int priority) {
     	Node<E> tempNode = tail;
@@ -34,7 +28,7 @@ class SimpleQueuedList<E> {
     		}
     	}
     	
-    	if (tempNode == head) {
+    	if (tempNode.equals(head)) {
         	tempNode.setPrev(new Node<E>(item,null,tempNode,priority));
         	head = tempNode.getPrev();
     		
@@ -46,15 +40,26 @@ class SimpleQueuedList<E> {
     	return;
     }
     
+    
+    
+    
+    
     public E dequeue () {
-    	Node<E> tempNode = head.getNext();
+    	Node<E> tempNode = head;
     	if (head==null) {//if list is empty
             return null;
         }
+    	if (head.getNext()==null) {
+    		tail=null;
+    	}
     	//returns first item and moves rest of stack
-    	head = tempNode;
+    	head = head.getNext();
      	return tempNode.getItem();
     }
+    
+    
+    
+    
     
     public boolean isEmpty() {
     	if (head==null) {
@@ -63,11 +68,15 @@ class SimpleQueuedList<E> {
     	return false;
     }
     
+    
+    
+    
+    
     public void add(E item) { 
     	Node<E> tempNode = head;
       
         if (head==null) {//if list is empty
-            head=new Node<E>(item,null);
+            head=new Node<E>(item,null,null,0);
             return;
         }
     
@@ -75,11 +84,12 @@ class SimpleQueuedList<E> {
             tempNode = tempNode.getNext();
         }
       
-        tempNode.setNext(new Node<E>(item,null));//adds item to the end
+        tempNode.setNext(new Node<E>(item,null,null,0));//adds item to the end
         return;
       
     }
-         
+    
+    
 
     
     public E get(int index) { 
@@ -101,6 +111,7 @@ class SimpleQueuedList<E> {
     
     
     
+    
     public int indexOf(E item) { 
     	Node<E> tempNode = head;
 
@@ -119,6 +130,7 @@ class SimpleQueuedList<E> {
     	
     	return -1;
     }
+    
     
     
     
@@ -151,6 +163,7 @@ class SimpleQueuedList<E> {
 
     
 
+    
     public boolean remove(E item) {
     	Node<E> tempNode = head;
     	if (tempNode == null) {//if there's no list
@@ -169,9 +182,11 @@ class SimpleQueuedList<E> {
     
     
     
+    
     public void clear() { 
     	head = null;
     }
+    
     
     
     
@@ -196,58 +211,45 @@ class SimpleQueuedList<E> {
 
 
 
-// ********************** A Node in the linked list *********
+// ********************** A Node in the queue *********
 class Node<T> { 
 	private T item;
 	private Node<T> next;
 	private Node<T> prev;
 	private int priority=Integer.MAX_VALUE;
 
-	public Node(T item) {
+	public Node(T item, Node<T> prev, Node<T> next, int priority) {
 		this.item=item;
-		this.next=null;
-	}
-	public Node(T item, Node<T> next) {
-		this.item=item;
-		this.next=next;
-	}
-	public Node(T item, Node<T> next, Node<T> prev) {
-		this.item=item;
-		this.next=next;
 		this.prev=prev;
-	}
-	public Node(T item, Node<T> next, Node<T> prev, int priority) {
-		this.item=item;
 		this.next=next;
-		this.prev=prev;
-		this.priority=priority;
-	}
-	public Node(T item, int priority) {
-		this.item=item;
 		this.priority=priority;
 	}
 	
 
-	public Node<T> getNext(){
-		return this.next;
-	}
-	public void setNext(Node<T> next){
-		this.next = next;
-	}
-
-	public Node<T> getPrev(){
-		return this.prev;
-	}
-	public void setPrev(Node<T> prev){
-		this.prev = prev;
-	}
-	
 	public T getItem(){
 		return this.item;
 	}
-	
-	public int getPriority(){
+	public Node<T> getPrev(){
+		return this.prev;
+	}
+	public Node<T> getNext(){
+		return this.next;
+	}
+	public int getPriority() {
 		return this.priority;
+	}
+	
+	public void setItem(T item) {
+		this.item=item;
+	}
+	public void setPrev(Node<T> prev) {
+		this.prev = prev;
+	}
+	public void setNext(Node<T> next) {
+		this.next = next;
+	}
+	public void setPriority(int priority) {
+		this.priority=priority;
 	}
 
 }
