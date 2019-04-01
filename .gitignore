@@ -8,3 +8,8 @@
 .project
 .class
 .java~
+/Node.class
+/QueueList.class
+/SimpleQueuedList.class
+/SimpleStackedList.class
+/StackedList.class
