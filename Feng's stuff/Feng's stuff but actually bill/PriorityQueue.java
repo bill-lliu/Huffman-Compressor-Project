@@ -15,7 +15,7 @@ public class PriorityQueue<T>{
       Node<T> tempNode = head;
       while (priority > tempNode.getPriority()) {
         tempNode = tempNode.getNext();
-        if (tempNode == null){
+        if (tempNode == null){//this case shouldnt exist what
           return;
         } else if (tempNode.getNext() == null){
           tempNode.setNext(newNode);
@@ -74,13 +74,11 @@ public class PriorityQueue<T>{
     
     public void setPriority(int priority){
       this.priority = priority;
-    }
-    
+    }    
     
     public Node<T> getNext() {
         return next;
     }
-
 
     public void setNext(Node<T> next) {
         this.next = next;
