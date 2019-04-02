@@ -50,9 +50,9 @@ public class PriorityQueue<T>{
   }
   
   private class Node<T>{
-    T item;
-    Node<T> next;
-    int priority;
+    private T item;
+    private Node<T> next;
+    private int priority;
     
     Node(T item, Node<T> next, int priority) {
       this.item = item;
@@ -64,7 +64,7 @@ public class PriorityQueue<T>{
       return item;
     }
     
-    public void setItem(){
+    public void setItem(T item){
       this.item = item;
     }
     
@@ -72,7 +72,7 @@ public class PriorityQueue<T>{
       return priority;
     }
     
-    public void setPriority(){
+    public void setPriority(int priority){
       this.priority = priority;
     }
     

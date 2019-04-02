@@ -22,14 +22,18 @@ public class Encoder {
 		}
 		
 		
-		private static Node buildTree(int[] freq) {
+		private static Node buildTree(int[] frequency) {
 			return Node;
 		}
 		
 		
 		
+		//return function for the class
 		return null;
 	}
+	
+	
+	
 	
 	
 	
@@ -48,4 +52,13 @@ public class Encoder {
 		int[] ftable = checkFrequency(test);
 		System.out.println(ftable);
 	}
+}
+
+
+
+//Node Class
+public class Node<E> {
+	private char character;
+	private int frequency;
+	private Node
 }
