@@ -32,8 +32,6 @@ public class EncodeBinaryTree {
 	
 	
 	
-	
-	
 	//method to combine 2 nodes
 	private Node<Integer> combine(Node<Integer> left, Node<Integer> right) {
 		return new Node<>(left, right);
