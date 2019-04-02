@@ -224,6 +224,12 @@ public class EncodeBinaryTree {
 
 
 
+
+
+
+//david code
+
+
 public class Main {
  // Binary code as a string for each decimal value
  private static String[] codes = new String[256];
