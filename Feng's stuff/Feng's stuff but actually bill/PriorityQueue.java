@@ -8,18 +8,23 @@ public class PriorityQueue<T>{
     Node<T> newNode = new Node<T>(item, null, priority);
     if (head == null) {
       head = newNode;
-    } else if (priority < head.getPriority()) {
-      Node<T> otherNode = head;
+    } else if (priority <= head.getPriority()) {
+      newNode.setNext(head);
       head = newNode;
-      newNode.setNext(otherNode);
     } else {
       Node<T> tempNode = head;
-      while (tempNode.getPriority() < priority) {
+      while (priority > tempNode.getPriority()) {
         tempNode = tempNode.getNext();
-        if (tempNode.getNext().getPriority() > priority) {
+        if (tempNode == null){
+          return;
+        } else if (tempNode.getNext() == null){
+          tempNode.setNext(newNode);
+          return;
+        } else if (tempNode.getNext().getPriority() >= priority) {
           Node<T> nextNode = tempNode.getNext();
           tempNode.setNext(newNode);
           newNode.setNext(nextNode);
+          return;
         }
       }
     }

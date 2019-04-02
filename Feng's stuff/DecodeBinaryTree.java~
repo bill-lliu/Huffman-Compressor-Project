@@ -24,13 +24,6 @@ public class DecodeBinaryTree {
     parseFile(textFile);
   }
   
-  private String treeString(Node<Integer> node) {
-    if (node.isLeaf()) {
-      return Integer.toString(node.getItem());
-    } else {
-      return "(" + treeString(node.getLeft()) + " " + treeString(node.getRight()) + ")";
-    }
-  }
   
   /* Private method parseFile
    * Takes the .MZIP file and parses it and also decodes it
@@ -109,7 +102,6 @@ public class DecodeBinaryTree {
       out.close();
       in.close();
       System.out.println("File decoded successfully");
-      System.out.println(treeString(root));
     } catch (IOException e) {
       System.out.println("File not found!");
     }
