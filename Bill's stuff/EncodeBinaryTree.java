@@ -317,66 +317,190 @@ public class EncodeBinaryTree {
   }
 }
 
-/*
 
 
 
-public class BitOperations {
-  
-  
-  public static void main(String[] args) { 
-    
-    char c = 'A';
-    int v = (int)c;
-    
-    System.out.println("Character: "+c);    
-    System.out.println("Decimal/ASCII Value: "+v);
-    OutputBinaryEquivalent(c);
-    
-    
-    
-    System.out.println("\n\nBit Operations");
-    
-    System.out.println("\nAND: A & a - 01000001 & 01100010: ");
-    System.out.println("Result: "+ ((char)('A'&'b')));
-    OutputBinaryEquivalent((char)('A'&'b'));
-    
-    System.out.println("\n\nOR: A | a - 01000001 | 01100010: ");
-    System.out.println("Result: "+ ((char)('A'|'b')));
-    OutputBinaryEquivalent((char)('A'|'b'));
-    
-    System.out.println("\n\nXOR: A ^ a - 01000001 ^ 01100010: ");
-    System.out.println("Result: "+ ((char)('A'^'b')));
-    OutputBinaryEquivalent((char)('A'^'b'));
+public class Main {
+ // Binary code as a string for each decimal value
+ private static String[] codes = new String[256];
+ public static void main(String args[]) throws IOException {
+     // File IO variables
+     BufferedOutputStream out = null;
+     BufferedInputStream in = null;
+     // Queue where frequency of character is priority
+     PriorityQueue queue = new PriorityQueue();
+     // Array of bits
+     BitSet data = new BitSet();
+     // User input
+     Scanner input = new Scanner(System.in);
+     // 256 decimal values all this frequency 0
+     int arr[] = new int[256];
+     for (int i = 0; i < 256; i++){
+         arr[i] = 0;
+     }
 
-    System.out.println("\n\nBIT SHIFT LEFT: A << 1, A=01000001");
-    System.out.println("Result: "+ ((char)('A'<< 1)));
-    OutputBinaryEquivalent((char)('A'<< 1));
-    
-    System.out.println("\n\nBIT SHIFT RIGHT: A >> 3, A=01000001");
-    System.out.println("Result: "+ ((char)('A'>> 3)));
-    OutputBinaryEquivalent((char)('A'>> 3));
+     try {
+         // Prompts until user enters existing file
+         boolean found = false;
+         String name = "";
+         while(!found) {
+             try {
+                 System.out.println("Enter name of file (include extension): ");
+                 name = input.nextLine();
+                 in = new BufferedInputStream(new FileInputStream(name));
+                 out = new BufferedOutputStream(new FileOutputStream(removeFileExtension(name).toUpperCase() + ".MZIP"));
+                 found = true;
+             } catch (Exception FileNotFoundException){
+                 System.out.println("File not found.");
+                 found = false;
+             }
+         }
+         // Records frequency of each character
+         int c;
+         while ((c = in.read()) != -1) {
+             arr[c]++;
+         }
+         // Adds the characters to a priority queue
+         for (int i = 0; i < 256; i++){
+             if (arr[i] != 0)
+             queue.enqueue(new BinaryTree(new Node(arr[i], i)));
+         }
 
-    
-  }
-  
-  
-  
-  
-  public static void OutputBinaryEquivalent(char c) { 
-    
-    System.out.print("Binary equivalent: ");
-    
-    for (int i=7;i>=0;i--) { 
-      if (( c & (char)Math.pow(2,i)  ) > 0) {
-        System.out.print("1");
-      }else {
-        System.out.print("0");
-      }
-    }
-  }
-  
+         String tree ="";
+         if (queue.getSize() == 0){
+             System.out.println("No data in file");
+         }else{
+             while (queue.getSize() > 1){
+                 Node left = queue.dequeue().getRoot();
+                 Node right = queue.dequeue().getRoot();
+                 // Combines the two least frequent characters
+                 Node combined = new Node(left.getValue()+right.getValue());
+                 combined.setRight(right);
+                 combined.setLeft(left);
+                 // Adds them to the queue as a single tree
+                 queue.enqueue(new BinaryTree(combined));
+             }
+             Node finishedTree = queue.dequeue().getRoot();
+             // Generates the string representing the tree;
+             String representation = representTree(finishedTree);
+             // Generates the code for each character
+             getCode(finishedTree, "");
+             // Bits used from codes
+             int total = 0;
+             // Reads through the file
+             in = new BufferedInputStream(new FileInputStream(name));
+             while ((c = in.read()) != -1) {
+                 for(int i = 0; i < codes[c].length();i++) {
+                     // Sets the bit to 1
+                     if(codes[c].charAt(i) == '1'){
+                         data.set(total + i, true);
+                     }else{
+                         // Sets the bit to 0
+                         data.set(total + i, false);
+                     }
+                 }
+                 total = total + codes[c].length();
+             }
+             // Calculates end zeros of bits
+             int endZeros;
+             if (total % 8 == 0){
+                 endZeros = 0;
+             } else {
+                 endZeros = 8 - (total % 8);
+             }
+             byte[] dataByte = data.toByteArray();
+             // Outputs the information to the file
+             out.write(name.toUpperCase().getBytes());
+             out.write(System.lineSeparator().getBytes());
+             out.write(representation.getBytes());
+             out.write(System.lineSeparator().getBytes());
+             out.write(Integer.toString(endZeros).getBytes());
+             out.write(System.lineSeparator().getBytes());
+             for (int i = 0; i < dataByte.length; i++) {
+                 // toByteArray reverses the bits when converted to a byte
+                 // Bits are signed by default
+                 if (dataByte[i] > 0) {
+                     out.write((unsignedToBytes(reverseBits(dataByte[i]))));
+                 } else {
+                     out.write((reverseBits(unsignedToBytes(dataByte[i]))));
+                 }
+             }
+             /* Troubleshooting
+             for (int i =0; i < codes.length; i++){
+                 if (codes[i] != null)
+                 System.out.println(i +": " + codes[i]);
+             }
+
+             for (int i = 0; i < data.size(); i++) {
+                 if (data.get(i))
+                     System.out.print(1);
+                 else
+                     System.out.print(0);
+             }*/
+         }
+     } finally {
+         if (in != null) {
+             in.close();
+         }
+         if (out != null) {
+             out.close();
+         }
+     }
+ }
+
+ /**-------------------METHODS---------------------**/
+ /**
+  * representTree
+  * Creates string for a given tree using recursion
+  * @param root, Node, root of the tree
+  * @return String, the current of tree representation
+  */
+ private static String representTree(Node root){
+     if (root.getLeft() == null && root.getRight() == null){
+         return Integer.toString(root.getChar());
+     }
+     if (!root.getLeft().isLeaf() && !root.getRight().isLeaf()){
+         return ("(" + representTree(root.getLeft()) + representTree(root.getRight()) + ")");
+     }
+     return ("(" + representTree(root.getLeft()) + " " + representTree(root.getRight()) + ")");
+
+ }
+
+ /**
+  * removeFileExtension
+  * Removes the extension from a given file name
+  * @param name, String, the full file name
+  * @return String, the file name without extension
+  */
+ private static String removeFileExtension(String name){
+     if (name.indexOf(".") > 0) {
+         name = name.substring(0, name.lastIndexOf("."));
+     }
+     return name;
+ }
+
+ /**
+  * getCode
+  * Recursively traverses tree to generate codes
+  * @param root, the current Node being looked at
+  * @param code, the currently developed code
+  * @return String, the file name without extension
+  * */
+ private static void getCode(Node root, String code) {
+     // Leaves are characters
+     if (root.getLeft() == null && root.getRight() == null) {
+         codes[root.getChar()] = code;
+         return;
+     }
+     // Will have left and right if it is not a leaf
+     getCode(root.getLeft(), code + "0");
+     getCode(root.getRight(), code + "1");
+ }
+
 }
 
-
-*/
+private static void add(Node root, String ) {
+	if (root.isleaf==true) {
+		
+	}
+}
