@@ -219,102 +219,6 @@ public class EncodeBinaryTree {
     return new Node<>(left, right);
   }
   
-  /* Private class Node<T>
-   * Node for the Binary Tree
-   */
-  private class Node<T> {
-    private T item;
-    private Node<T> left;
-    private Node<T> right;
-    
-    /* Constructor
-     * Creates a new node with an item but no branches
-     * @param T item
-     */
-    Node(T item) {
-      this.item = item;
-      this.left = null;
-      this.right = null;
-    }
-    
-    /* Constructor
-     * Creates a new node with an item and branches
-     * @param T item
-     * @param Node<T> left
-     * @param Node<T> right
-     */
-    Node(T item, Node<T> left, Node<T> right) {
-      this.item = item;
-      this.left = left;
-      this.right = right;
-    }
-    
-    /* Constructor
-     * Creates a new node with no item but both branches
-     * @param T item
-     * @param Node<T> left
-     * @param Node<T> right
-     */
-    Node(Node<T> left, Node<T> right) {
-      this.item = null;
-      this.left = left;
-      this.right = right;
-    }
-    
-    /* public method getItem
-     * @return T 
-     */
-    public T getItem() {
-      return item;
-    }
-    
-    /* public method setItem
-     * @param T item 
-     */
-    public void setItem(T item) {
-      this.item = item;
-    }
-    
-    /* public method getLeft
-     * @return Node<T> left 
-     */
-    public Node<T> getLeft() {
-      return left;
-    }
-    
-    /* public method setLeft
-     * @param Node<T> left 
-     */
-    public void setLeft(Node<T> left) {
-      this.left = left;
-    }
-    
-    /* public method getRight
-     * @return Node<T> right
-     */
-    public Node<T> getRight() {
-      return right;
-    }
-    
-    /* public method setRight
-     * @param Node<T> right
-     */
-    public void setRight(Node<T> right) {
-      this.right = right;
-    }
-    
-    /* public method isLeaf
-     * Checks to see if the node has branches
-     * @return boolean isLead 
-     */
-    public boolean isLeaf() {
-      if (left == null && right == null) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
 }
 
 
@@ -497,10 +401,4 @@ public class Main {
      getCode(root.getRight(), code + "1");
  }
 
-}
-
-private static void add(Node root, String ) {
-	if (root.isleaf==true) {
-		
-	}
 }
