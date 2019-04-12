@@ -91,7 +91,6 @@ class Encoder {
 			return toAdd;//returns empty if tree is empty
 		} else if (node.isLeaf()) {//leaf nodes contain values
 			map.put(node.getItem(), value);//add binary value to hash map
-			toAdd += " ONE ";
 			System.out.println(node.getItem()+":"+value);//for debugging
 			return toAdd;//nothing new to add
 		} else {
