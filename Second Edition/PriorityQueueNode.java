@@ -1,5 +1,3 @@
-package Encoder;
-
 public class PriorityQueueNode<E> implements Comparable<PriorityQueueNode<E>> {
 
 	PriorityQueueNode<E> right, left,par;

@@ -1,5 +1,3 @@
-package Encoder;
-
 public class TreeNode<E extends Comparable<E>> implements Comparable<TreeNode<E>> {
 	private TreeNode<E> left, right;
 	private E val;

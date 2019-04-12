@@ -1,5 +1,3 @@
-package Encoder;
-
 public class PriorityQueue<T> {
 
 	private PriorityQueueNode<T> head;
